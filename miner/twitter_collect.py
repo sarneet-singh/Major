@@ -4,7 +4,7 @@ import botornot
 import tweepy
 from tweepy import OAuthHandler
 from tweepy.streaming import StreamListener
-
+import sys, getopt
 from major_mongo.dbwrapper import MongoDb
 
 access_token = "719886346496643072-REHFkVrAz8M2gtYk09jDccbGKHcW68B"
@@ -24,6 +24,30 @@ twitter_app_auth = {
   }
 
 bon = botornot.BotOrNot(**twitter_app_auth)
+
+host = "192.168.0.10"
+port = 27017
+dbName = "twitter"
+
+def main(argv):
+    try:
+       opts, args = getopt.getopt(argv,"h:p:d:",["host=","port=","dbname"])
+    except getopt.GetoptError:
+       print ('Help\n\n -h \t host= host ip \n -p \t port= mongoDb port\n -d \t dbname= MongoDb database Name')
+       sys.exit(2)
+    if len(opts) == 0:
+       print('Help\n\n -h \t host= host ip \n -p \t port= mongoDb port\n -d \t dbname= MongoDb database Name')
+       sys.exit(2)
+    for opt, arg in opts:
+        if opt in ("-h", "--host"):
+            host = arg
+        elif opt in ("-p", "--port"):
+            port = arg
+        elif opt in ("-d", "--dbname"):
+            dbName = arg
+
+if __name__ == "__main__":
+   main(sys.argv[1:])
 
 #listener for handling tweets
 class MyStreamListener(StreamListener):
@@ -46,7 +70,8 @@ class MyStreamListener(StreamListener):
 
     def on_status(self, status):
         data = status._json
-        print(MongoDb().find_tweet_by_id(MongoDb().insert_tweet(data)))
+        db = MongoDb(host=host, dbName=dbName, port=port)
+        print(db.find_tweet_by_id(db.insert_tweet(data)))
         time.sleep(6)
     # def on_event(self, status):
     #     print(status)

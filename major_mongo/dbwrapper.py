@@ -1,3 +1,6 @@
+from pymongo import MongoClient
+
+
 class Singleton(type):
     _instances = {}
 
@@ -7,13 +10,13 @@ class Singleton(type):
         return cls._instances[cls]
 
 
-class MongoDb(metaclass=Singleton):
+class MongoDb():
     global host
     global port
     global client
     global db
 
-    def __init__(self, host='192.168.0.10', port=27017, dbName='twitter'):
+    def __init__(self, host, port, dbName):
         super().__init__()
         self.host = host
         self.port = port
