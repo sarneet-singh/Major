@@ -8,7 +8,7 @@ config = {
     'author': 'Sarneet Nivranshu Prashant Raveesh',
     'url': 'github',
     'version': '0.1',
-    'install_requires': ["nose >= 1.3.7", "tweepy >= 3.5.0" , "pymongo >= 2.3.0", "requests >= 2.13.0", "botornot >= 0.3"],
+    'install_requires': ["nose >= 1.3.7", "tweepy >= 3.5.0" , "pymongo >= 2.3.0", "requests >= 2.13.0", "botornot >= 0.3", "gingerit"],
     'scripts': [],
     'packages': ['miner','major_mongo'],
     'name': 'Major'
